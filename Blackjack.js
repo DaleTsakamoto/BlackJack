@@ -425,7 +425,6 @@ window.addEventListener("DOMContentLoaded", event => {
 
 
         //Dealer event
-        let num = 10;
         function dealer () {
                 if (dealTotal > 21){
                         const h2 = document.createElement('h2')
@@ -461,12 +460,6 @@ window.addEventListener("DOMContentLoaded", event => {
                         return dealer();
                 }
         }
-
-
-
-
-
-
 
 })
 

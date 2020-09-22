@@ -2,7 +2,11 @@
 
 class Game {
     constructor(name){
-    this.name = name,
+    this.name = name;
+    this.hand = [];
+    this.dealerHand = [];
+    this.total = 0;
+    this.dealerTotal = 0;
     this.cards = 
     [   {name: "2_C", value: 2, num: 0}, 
         {name: "3_C", value: 3, num: 1}, 
@@ -61,59 +65,93 @@ class Game {
 
     dealCards () {
         if (card_1.innerHTML === ''){
-        card_1.innerHTML = card1Roll();
-        card_2.innerHTML = card2Roll();
-        card_8.innerHTML = card8Roll();
-        hit.addEventListener('click', hitCards)
-        deal.removeEventListener('click', dealCards);
-        hold.addEventListener('click', holdCards)
-        } else {
-                location.reload();
+                const one = cardCreator();
+                card_1.innerHTML = `<img class="card-in-hand" src= "./cardImg/${one}.png">`
+                playerHand.push(one)
+                const two = cardCreator();
+                card_2.innerHTML = `<img class="card-in-hand" src= "./cardImg/${two}.png">`
+                playerHand.push(two)
+                const eight = cardCreator();
+                card_8.innerHTML = `<img class="card-in-hand" src= "./cardImg/${eight}.png">`
+                dealerHand.push(eight)
+                card_9.innerHTML = `<img class="card-in-hand" src= "./cardImg/purple_back.png">`
+                hit.addEventListener('click', hitCards)
+                deal.removeEventListener('click', dealCards);
+                hold.addEventListener('click', holdCards)
+                } else {
+                        location.reload();
+                }
+        }
+
+    randomizer = max => {
+        return Math.floor(Math.random() * Math.floor(max))
+}
+
+    cardCreator(){
+        let card = randomizer(51)
+        if (this.hand.includes(card.name) || this.dealerHand.includes(card.name)){
+             return cardCreator();
+        }else{
+             for (let i = 0; i < 51; i++){
+                if (card === Number(card[i].num)){
+                        total += Number(card[i].value)
+                        let name = card[i].name
+                        return name;
+                     }
+             }
         }
     }
 
-    hitCards () {
-    if (card_3.innerHTML === ''){
-            card_3.innerHTML = card3Roll();
-            let num = 3;
-            aceInHand(num);
-    } else if (card_4.innerHTML === ''){
-            card_4.innerHTML = card4Roll();
-            let num = 4;
-            aceInHand(num);
-    }  else if (card_5.innerHTML === ''){
-            card_5.innerHTML = card5Roll();
-            let num = 5;
-            aceInHand(num);
-    } else if (card_6.innerHTML === ''){
-            card_6.innerHTML = card6Roll();
-            let num = 6;
-            aceInHand(num);
-    } else if (card_7.innerHTML === ''){
-            card_7.innerHTML = card7Roll();
-            let num = 7;
-            aceInHand(num);
-    }else {
-            return;
-    }
 
-    if (total > 21) {
+    hitCards (cardFunc, htmlId, num) {
+        if (htmlId.innerHTML === ''){
+                htmlId.innerHTML = `<img class="card-in-hand" src= "./cardImg/${cardFunc()}.png">`
+                aceInHand(num);
+                loseOption();
+        }
+}
+
+    loseOption(){
+        if (total > 21) {
             const h2 = document.createElement('h2')
             h2.innerHTML = "YOU LOSE!"
             document.body.appendChild(h2)
             hit.removeEventListener('click', hitCards);
             hold.removeEventListener('click', holdCards);
             deal.addEventListener('click', dealCards)
-         }
+        }
+    }
+    
+    winOption(){
+        const h2 = document.createElement('h2')
+        h2.innerHTML = "YOU WIN!"
+        document.body.appendChild(h2)   
+        hit.removeEventListener('click', hitCards);
+        hold.removeEventListener('click', holdCards);
+        deal.addEventListener('click', dealCards) 
     }
 
     holdCards () {
         hit.removeEventListener('click', hitCards);
         hold.removeEventListener('click', holdCards)
         deal.addEventListener('click', dealCards)
-        card_9.innerHTML = card9Roll();
+        const nine = card9Roll()
+        card_9.innerHTML = card_9.innerHTML = `<img class="card-in-hand" src= "./cardImg/${nine}.png">`
+        dealerHand.push(nine)
         dealer();
+    }
+
+    dealerLose() {
+        if (dealTotal > 21){
+                this.winOption();
+        } else if (dealTotal > 16){
+                if (total >= dealTotal){
+                        this.winOption();
+                } else {
+                        this.loseOption()
+                }
 }
+
 
 }
 
