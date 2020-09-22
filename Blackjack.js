@@ -80,6 +80,9 @@ let card14 = randomizer(51);
 let total = 0;
 let dealTotal = 0;
 
+let playerHand = []
+let dealerHand = []
+
 function card1Roll () {
      for (let i = 0; i < 51; i++){
         if (card1 === Number(cards[i].num)){
@@ -277,10 +280,10 @@ function card3Roll () {
          //Ace High/Low
 
          function aceInHand (num) {
-                for (let i = 1; i<=num; i++){
-                        let cardInHand = document.getElementById(`card-${i}`).innerHTML
-                        if (cardInHand.includes('A')){
-                        acer(cardInHand);
+                for (let i = 0; i<=num; i++){
+                        let el = playerHand[i];
+                        if (el.includes('A')){
+                        acer(el);
                         }
                 }
          }
@@ -300,10 +303,10 @@ function card3Roll () {
 
 
          function aceInHandDealer (num) {
-                for (let i = 8; i<=num; i++){
-                        let cardInHand = document.getElementById(`deal-card-${i}`).innerHTML
-                        if (cardInHand.includes('A')){
-                        acerDealer(cardInHand);
+                for (let i = 0; i<=num; i++){
+                        let el = dealerHand[i]
+                        if (el.includes('A')){
+                        acerDealer(el);
                         }
                 }
          }
@@ -346,9 +349,16 @@ window.addEventListener("DOMContentLoaded", event => {
         //Deal button event
         function dealCards () {
                 if (card_1.innerHTML === ''){
-                card_1.innerHTML = card1Roll();
-                card_2.innerHTML = card2Roll();
-                card_8.innerHTML = card8Roll();
+                const one = card1Roll();
+                card_1.innerHTML = `<img class="card-in-hand" src= "./cardImg/${one}.png">`
+                playerHand.push(one)
+                const two = card2Roll();
+                card_2.innerHTML = `<img class="card-in-hand" src= "./cardImg/${two}.png">`
+                playerHand.push(two)
+                const eight = card8Roll()
+                card_8.innerHTML = `<img class="card-in-hand" src= "./cardImg/${eight}.png">`
+                dealerHand.push(eight)
+                card_9.innerHTML = `<img class="card-in-hand" src= "./cardImg/purple_back.png">`
                 hit.addEventListener('click', hitCards)
                 deal.removeEventListener('click', dealCards);
                 hold.addEventListener('click', holdCards)
@@ -363,25 +373,29 @@ window.addEventListener("DOMContentLoaded", event => {
         //Hit button event
         function hitCards () {
                 if (card_3.innerHTML === ''){
-                        card_3.innerHTML = card3Roll();
-                        let num = 3;
-                        aceInHand(num);
+                        const three = card3Roll()
+                        card_3.innerHTML = `<img class="card-in-hand" src= "./cardImg/${three}.png">`
+                        playerHand.push(three)
+                        aceInHand(2);
                 } else if (card_4.innerHTML === ''){
-                        card_4.innerHTML = card4Roll();
-                        let num = 4;
-                        aceInHand(num);
+                        const four = card4Roll()
+                        card_4.innerHTML = `<img class="card-in-hand" src= "./cardImg/${four}.png">`
+                        playerHand.push(four)
                 }  else if (card_5.innerHTML === ''){
-                        card_5.innerHTML = card5Roll();
-                        let num = 5;
-                        aceInHand(num);
+                        const five = card5Roll()
+                        card_5.innerHTML = `<img class="card-in-hand" src= "./cardImg/${five}.png">`
+                        playerHand.push(five)
+                        aceInHand(4);
                 } else if (card_6.innerHTML === ''){
-                        card_6.innerHTML = card6Roll();
-                        let num = 6;
-                        aceInHand(num);
+                        const six = card6Roll()
+                        card_6.innerHTML = `<img class="card-in-hand" src= "./cardImg/${six}.png">`
+                        playerHand.push(six)
+                        aceInHand(5);
                 } else if (card_7.innerHTML === ''){
-                        card_7.innerHTML = card7Roll();
-                        let num = 7;
-                        aceInHand(num);
+                        const seven = card7Roll()
+                        card_7.innerHTML = `<img class="card-in-hand" src= "./cardImg/${seven}.png">`
+                        playerHand.push(seven)
+                        aceInHand(6);
                 }else {
                         return;
                 }
@@ -402,7 +416,9 @@ window.addEventListener("DOMContentLoaded", event => {
                 hit.removeEventListener('click', hitCards);
                 hold.removeEventListener('click', holdCards)
                 deal.addEventListener('click', dealCards)
-                card_9.innerHTML = card9Roll();
+                const nine = card9Roll()
+                card_9.innerHTML = card_9.innerHTML = `<img class="card-in-hand" src= "./cardImg/${nine}.png">`
+                dealerHand.push(nine)
                 dealer();
         }
 
@@ -426,19 +442,22 @@ window.addEventListener("DOMContentLoaded", event => {
                                 document.body.appendChild(h2)
                         }
                 }else if (card_10.innerHTML === ''){
-                        card_10.innerHTML = card10Roll();
-                        let num = 10;
-                        aceInHandDealer(num);
+                        const ten = card10Roll()
+                        card_10.innerHTML = card_10.innerHTML = `<img class="card-in-hand" src= "./cardImg/${ten}.png">`
+                        dealerHand.push(ten)
+                        aceInHandDealer(2);
                         return dealer();
                 }else if (card_11.innerHTML === ''){
-                        card_11.innerHTML = card11Roll();
-                        let num = 11;
-                        aceInHandDealer(num);
+                        const eleven = card11Roll()
+                        card_11.innerHTML = card_11.innerHTML = `<img class="card-in-hand" src= "./cardImg/${eleven}.png">`
+                        dealerHand.push(eleven)
+                        aceInHandDealer(3);
                         return dealer();
                 }else if (card_12.innerHTML === ''){
-                        card_12.innerHTML = card12Roll();
-                        let num = 12;
-                        aceInHandDealer(num);
+                        const twelve = card12Roll()
+                        card_12.innerHTML = card_12.innerHTML = `<img class="card-in-hand" src= "./cardImg/${twelve}.png">`
+                        dealerHand.push(twelve)
+                        aceInHandDealer(4);
                         return dealer();
                 }
         }

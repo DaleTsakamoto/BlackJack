@@ -1,6 +1,9 @@
 //Card Collection
 
-const cards =
+class Game {
+    constructor(name){
+    this.name = name,
+    this.cards = 
     [   {name: "2_C", value: 2, num: 0}, 
         {name: "3_C", value: 3, num: 1}, 
         {name: "4_C", value: 4, num: 2}, 
@@ -53,7 +56,66 @@ const cards =
         {name: "Q_S", value: 10, num: 49},
         {name: "K_S", value: 10, num: 50},
         {name: "A_S", value: 11, num: 51, low: 'no'}
-]
+    ]
+    }
+
+    dealCards () {
+        if (card_1.innerHTML === ''){
+        card_1.innerHTML = card1Roll();
+        card_2.innerHTML = card2Roll();
+        card_8.innerHTML = card8Roll();
+        hit.addEventListener('click', hitCards)
+        deal.removeEventListener('click', dealCards);
+        hold.addEventListener('click', holdCards)
+        } else {
+                location.reload();
+        }
+    }
+
+    hitCards () {
+    if (card_3.innerHTML === ''){
+            card_3.innerHTML = card3Roll();
+            let num = 3;
+            aceInHand(num);
+    } else if (card_4.innerHTML === ''){
+            card_4.innerHTML = card4Roll();
+            let num = 4;
+            aceInHand(num);
+    }  else if (card_5.innerHTML === ''){
+            card_5.innerHTML = card5Roll();
+            let num = 5;
+            aceInHand(num);
+    } else if (card_6.innerHTML === ''){
+            card_6.innerHTML = card6Roll();
+            let num = 6;
+            aceInHand(num);
+    } else if (card_7.innerHTML === ''){
+            card_7.innerHTML = card7Roll();
+            let num = 7;
+            aceInHand(num);
+    }else {
+            return;
+    }
+
+    if (total > 21) {
+            const h2 = document.createElement('h2')
+            h2.innerHTML = "YOU LOSE!"
+            document.body.appendChild(h2)
+            hit.removeEventListener('click', hitCards);
+            hold.removeEventListener('click', holdCards);
+            deal.addEventListener('click', dealCards)
+         }
+    }
+
+    holdCards () {
+        hit.removeEventListener('click', hitCards);
+        hold.removeEventListener('click', holdCards)
+        deal.addEventListener('click', dealCards)
+        card_9.innerHTML = card9Roll();
+        dealer();
+}
+
+}
 
 
-module.exports = cards;
+module.exports = Game;

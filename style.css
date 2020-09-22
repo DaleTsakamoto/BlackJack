@@ -1,0 +1,16 @@
+/* html{
+    background: url(images/bg.jpg) no-repeat center center fixed;
+    background-size: cover;
+} */
+
+.hand{
+    width: 60px;
+    left: 20px;
+    right: 0px;
+}
+
+img{
+    width: 100%;
+    left: 20px;
+    right: 0px;
+}
